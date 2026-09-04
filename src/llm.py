@@ -33,3 +33,8 @@ def create_llm():
     model_name = os.getenv("GOOGLE_MODEL", "gemini-2.5-flash")
 
     return GoogleGenerativeAI(api_key=api_key, model=model_name, temperature=0)
+
+
+if __name__ == "__main__":
+    llm = create_llm()
+    print("✅ LLM initialized successfully:", llm)
