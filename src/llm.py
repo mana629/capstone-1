@@ -1,5 +1,6 @@
 import os
 import sys
+from pathlib import Path
 
 from dotenv import load_dotenv
 from langchain_google_genai import GoogleGenerativeAI
@@ -19,8 +20,10 @@ def create_llm():
         llm = create_llm()
         reply = llm.invoke("Say hello in one sentence.")
     """
-    # Load values from .env into environment variables.
-    load_dotenv()
+    # Load values from project root .env into environment variables.
+    env_path = Path(__file__).resolve().parent.parent / ".env"
+    load_dotenv(dotenv_path=env_path)
+
 
     api_key = os.getenv("GOOGLE_API_KEY")
     if not api_key or api_key.strip() in {"", "your_api_key_here"}:
