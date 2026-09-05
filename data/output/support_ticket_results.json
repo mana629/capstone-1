@@ -1,0 +1,44 @@
+[
+  {
+    "ticket_id": "TKT-1001",
+    "customer_name": "Rahul Sharma",
+    "category": "billing",
+    "priority": "high",
+    "language": "English",
+    "analysis_type": "billing",
+    "case_summary": "{\n  \"issue\": \"Duplicate charge for Premium subscription\",\n  \"amount\": \"$29.99\",\n  \"transaction_count\": 2,\n  \"refund_required\": true\n}",
+    "resolution_type": "escalate",
+    "resolution_action": "Escalate ticket to the billing specialist team to verify duplicate transaction and process $29.99 refund.",
+    "human_required": true,
+    "response": "Dear Rahul,\n\nThank you for reaching out to us. I sincerely apologize for the extra $29.99 charge on your Premium subscription this month.\n\nI have escalated your ticket to our billing specialist team to verify the duplicate transaction and process your $29.99 refund. A specialist will review this promptly and update you as soon as the refund has been completed. \n\nWe appreciate your patience, and please feel free to reply if you have any other questions in the meantime.",
+    "resolution_reason": "Duplicate charge verified by system analysis requires manual financial review and refund processing by a billing specialist."
+  },
+  {
+    "ticket_id": "TKT-1002",
+    "customer_name": "Priya Nair",
+    "category": "technical",
+    "priority": "medium",
+    "language": "English",
+    "analysis_type": "technical",
+    "case_summary": "{\n  \"issue\": \"Mobile app crashes when opening the Settings page\",\n  \"affected_feature\": \"Settings page\",\n  \"error_message\": \"Unexpected null pointer\",\n  \"troubleshooting_required\": true,\n  \"account_status\": \"unknown\"\n}",
+    "resolution_type": "escalate",
+    "resolution_action": "Escalate the ticket to the mobile engineering team for crash log analysis and bug fixing.",
+    "human_required": true,
+    "response": "Hi Priya,\n\nThank you for reaching out and letting us know about the app crashing on the Settings page, as well as for already trying a quick reinstallation. I am sorry for the inconvenience this is causing.\n\nSince the \"Unexpected null pointer\" error persists, I have escalated your ticket directly to our mobile engineering team for further investigation and a bug fix. We will follow up with you as soon as we have an update from the team. \n\nThank you for your patience while we get this resolved for you!",
+    "resolution_reason": "The app experiences an unhandled 'Unexpected null pointer' crash on the Settings page that persists after reinstalling, indicating an application bug requiring technical escalation."
+  },
+  {
+    "ticket_id": "TKT-1003",
+    "customer_name": "Amit Verma",
+    "category": "account",
+    "priority": "high",
+    "language": "English",
+    "analysis_type": "account",
+    "case_summary": "{\n  \"issue\": \"Login failure\",\n  \"account_problem\": \"Receiving 'Invalid credentials' error despite resetting password twice\",\n  \"verification_needed\": false,\n  \"account_status\": \"unknown\"\n}",
+    "resolution_type": "escalate",
+    "resolution_action": "Escalate to the account support team to investigate backend authentication and account status.",
+    "human_required": true,
+    "response": "Hi Amit,\n\nThank you for reaching out, and I am sorry to hear you are having trouble logging into your account. \n\nSince resetting your password hasn't resolved the 'Invalid credentials' error, I have escalated your issue to our Account Support Team to investigate your account status and backend authentication details. \n\nA member of our team will review your case and follow up with you as soon as possible to help you regain access. Thank you for your patience in the meantime!",
+    "resolution_reason": "Customer is unable to log in despite resetting password twice, indicating a potential backend account issue."
+  }
+]

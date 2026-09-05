@@ -3,18 +3,18 @@ import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
-from langchain_google_genai import GoogleGenerativeAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 
 def create_llm():
     """
-    Create and return a GoogleGenerativeAI model for the workflow.
+    Create and return a ChatGoogleGenerativeAI model for the workflow.
 
     Loads environment variables from a local .env file, checks that an
     API key is present, then builds a simple chat model.
 
     Returns:
-        GoogleGenerativeAI: A LangChain chat model ready for chain usage.
+        ChatGoogleGenerativeAI: A LangChain chat model ready for chain usage.
 
     Example:
         llm = create_llm()
@@ -24,7 +24,6 @@ def create_llm():
     env_path = Path(__file__).resolve().parent.parent / ".env"
     load_dotenv(dotenv_path=env_path)
 
-
     api_key = os.getenv("GOOGLE_API_KEY")
     if not api_key or api_key.strip() in {"", "your_api_key_here"}:
         print(
@@ -33,9 +32,9 @@ def create_llm():
         )
         sys.exit(1)
 
-    model_name = os.getenv("GOOGLE_MODEL", "gemini-2.5-flash")
+    model_name = os.getenv("GOOGLE_MODEL", "gemini-3.6-flash")
 
-    return GoogleGenerativeAI(api_key=api_key, model=model_name, temperature=0)
+    return ChatGoogleGenerativeAI(google_api_key=api_key, model=model_name, temperature=0)
 
 
 if __name__ == "__main__":

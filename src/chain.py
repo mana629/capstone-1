@@ -18,7 +18,7 @@ from src.schemas import (
      ResolutionDecision
 )
 
-PROJRCT_ROOT = Path(__file__).resolve().parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 
 ANALYSIS_FOCUS = {
@@ -76,7 +76,7 @@ def load_prompt(file_path):
     """
     path = Path(file_path)
     if not path.is_absolute():
-        path = PROJRCT_ROOT / path
+        path = PROJECT_ROOT / path
     try:
         return path.read_text(encoding="utf-8")
     except FileNotFoundError:

@@ -23,67 +23,80 @@ def build_workflow(llm):
     router = create_router(llm)
     resolution_chain = create_resolution_chain(llm)
     response_chain = create_response_chain(llm)
-    
-def process_ticket(ticket,workflow):
+
+    return {
+        "triage_chain": triage_chain,
+        "router": router,
+        "resolution_chain": resolution_chain,
+        "response_chain": response_chain,
+    }
+
+
+def process_ticket(ticket, workflow):
     customer_name = ticket["customer_name"]
-    ticket_text = ticket["ticket_text"]
-    
-    triage =workflow["triage_chain"].invoke({
-        "customer_name":customer_name,
-        "ticket_text":ticket_text
+    ticket_text = ticket.get("ticket") or ticket.get("ticket_text", "")
+
+    # ---- Stage 1: Ticket Triage ----
+    triage = workflow["triage_chain"].invoke({
+        "customer_name": customer_name,
+        "ticket": ticket_text,
     })
 
     print(f"Category : {triage.category}")
     print(f"Priority : {triage.priority}")
-    print(f"Routing to : {CHAIN_LABELS.get(triage.category, 'general chain')}")
+    print(f"Routing to : {CHAIN_LABELS.get(triage.category, 'General_Chain')}")
 
     # ---- Stage 2 + 3: Routing and Case Analysis ----
-    # The router looks at "category" and calls the matching analysis chain.
     case_analysis = workflow["router"].invoke({
-        "catagory":triage.catagory,
-        "ticket":ticket_text,
-        "customer_name":customer_name
+        "category": triage.category,
+        "ticket": ticket_text,
+        "customer_name": customer_name,
     })
+
     # Convert analysis to text so later prompts stay simple and reusable.
     case_analysis_text = case_analysis.model_dump_json(indent=2)
+
     # ---- Stage 4: Resolution Decision ----
     resolution = workflow["resolution_chain"].invoke({
-        "customer_name":customer_name,
-        "category":triage.catagory,
-        "priority":triage.priority,
-        "case_analysis":case_analysis_text,
-        "language":triage.language,
-        "ticket_text":ticket_text
+        "customer_name": customer_name,
+        "category": triage.category,
+        "priority": triage.priority,
+        "case_analysis": case_analysis_text,
+        "language": triage.language,
+        "ticket": ticket_text,
     })
-    
+
     print(f"Resolution : {resolution.resolution_type}")
     print(f"Human Required : {'yes' if resolution.human_required else 'no'}")
 
     # ---- Stage 5: Customer Response ----
     response_text = workflow["response_chain"].invoke({
-        "customer_name":customer_name,
-        "category":triage.catagory,
-        "priority":triage.priority,
-        "case_analysis":case_analysis_text,
-        "language":triage.language,
-        "ticket_text":ticket_text,
-        "resolution":resolution.resolution_action
+        "customer_name": customer_name,
+        "category": triage.category,
+        "priority": triage.priority,
+        "case_analysis": case_analysis_text,
+        "language": triage.language,
+        "ticket": ticket_text,
+        "resolution_type": resolution.resolution_type,
+        "recommended_action": resolution.resolution_action,
+        "requires_human": "yes" if resolution.human_required else "no",
+        "resolution_reason": resolution.resolution_reason,
     })
+
     # ---- Stage 6: Build final result ----
-    
     result = TicketResult(
         ticket_id=ticket["ticket_id"],
         customer_name=customer_name,
-        category=triage.catagory,
+        category=triage.category,
         priority=triage.priority,
         language=triage.language,
-        analysis_type=triage.analysis_type,
+        analysis_type=triage.category,
         case_summary=case_analysis_text,
         resolution_type=resolution.resolution_type,
         resolution_action=resolution.resolution_action,
         human_required=resolution.human_required,
         response=response_text,
-        resolution_reason=resolution.resolution_reason
+        resolution_reason=resolution.resolution_reason,
     )
     return result
 

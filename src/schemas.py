@@ -63,6 +63,7 @@ class ResolutionDecision(BaseModel):
     resolution_action: str = Field(..., description="recommended action taken for customer issue")
     resolution_type: ResolutionType = Field(..., description="type of action")
     human_required: bool = Field(..., description="whether human is required for resolving the issue")
+    resolution_reason: str = Field(..., description="short explanation for your decision")
 
 class TicketResult(BaseModel):
     ticket_id: str
