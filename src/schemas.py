@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from typing import Literal
 
 # Allowed values used across triage and resolution stages
-category = Literal[
+Category = Literal[
     "billing",
     "technical",
     "account",
@@ -11,9 +11,9 @@ category = Literal[
     "general"
 ]
 
-priority = Literal["low", "medium", "high", "critical"]
+Priority = Literal["low", "medium", "high", "critical"]
 
-resolutionType = Literal[
+ResolutionType = Literal[
     "self_service",
     "resolve",
     "escalate",
@@ -21,8 +21,8 @@ resolutionType = Literal[
 ]
 
 class TicketTriage(BaseModel):
-    category: category = Field(..., description="support ticket category")
-    priority: priority = Field(..., description="urgency of the ticket")
+    category: Category = Field(..., description="support ticket category")
+    priority: Priority = Field(..., description="urgency of the ticket")
     language: str = Field(..., description="language used in customer ticket")
 
 class BillingAnalysis(BaseModel):
@@ -61,7 +61,7 @@ class GeneralAnalysis(BaseModel):
 
 class ResolutionDecision(BaseModel):
     resolution_action: str = Field(..., description="recommended action taken for customer issue")
-    resolution_type: resolutionType = Field(..., description="type of action")
+    resolution_type: ResolutionType = Field(..., description="type of action")
     human_required: bool = Field(..., description="whether human is required for resolving the issue")
 
 class TicketResult(BaseModel):
